@@ -7,8 +7,8 @@
 LR=0.001
 BATCH_SIZE=80
 
-PATH_TO_MAIN='/home/labravo/cariotipos/auto-karyotyping/classification-net/pytorch-code'
-MODEL_NAME='resnet50'
+PATH_TO_MAIN='/home/labravo/cariotipos/auto-karyotyping/classification-net/pytorch_code'
+MODEL_NAME='densenet121'
 NUM_EPOCHS=1000
 PATH_TO_DATASET='/media/SSD2/cariotipos/classification-net/classificationDB'
 EXPERIMENT_NAME=$MODEL_NAME'_'$NUM_EPOCHS'epochs_lr'$LR'_batch_size'$BATCH_SIZE

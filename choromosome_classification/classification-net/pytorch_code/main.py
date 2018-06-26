@@ -59,8 +59,10 @@ parser.add_argument('--dist-url', default='tcp://224.66.41.62:23456', type=str,
 parser.add_argument('--dist-backend', default='gloo', type=str,
                     help='distributed backend')
 ## LB 
-parser.add_argument('--saveDir', default='.', type=str, metavar='PATH',
-                    help='path to model save directory (default: none)')
+parser.add_argument('--saveDir', default='/media/SSD2/paujil/models/prueba', type=str, metavar='PATH',
+                    help='path to model save directory')
+parser.add_argument('-t', '--fine-tuning', action='store_true',
+help='transfer learning + fine tuning - train only the last FC layer.')
 
 best_prec1 = 0
 
@@ -79,8 +81,8 @@ def main():
     traindir = os.path.join(args.data, 'train')
     valdir = os.path.join(args.data, 'val')
     ## LB: edit this
-    normalize = transforms.Normalize(mean=[75.6478, 75.6478, 75.6478],
-                                     std=[27.4981, 27.4981, 27.4981])
+    normalize = transforms.Normalize(mean=[8.0943, 8.0943, 8.0943],
+                                     std=[27.5802, 27.5802, 27.5802])
 
     train_dataset = datasets.ImageFolder(
         traindir,
@@ -90,7 +92,7 @@ def main():
             transforms.ToTensor(),
             normalize,
         ]))
-
+    num_classes = len(train_dataset.classes)
     if args.distributed:
         train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
     else:
