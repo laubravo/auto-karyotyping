@@ -2,8 +2,8 @@ from PIL import Image
 import os as os
 import numpy as np
 
-in_dir = '/home/laubravo/Documents/cariotipos/MFISH_split/annotations'
-out_dir = '/home/laubravo/Documents/cariotipos/MFISH_split_binaries/train/annotations'
+in_dir = '/media/SSD1/MFISH_Dataset/MFISH_split/train/annotations'
+out_dir = '/media/SSD2/cariotipos/MFISH_Dataset/MFISH_split/train/annotations'
 
 #filename = os.path.join(in_dir, 'A0101.png')
 

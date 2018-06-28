@@ -10,7 +10,7 @@ import numpy as np
 from pycococreatortools import pycococreatortools
 import pdb
 
-ROOT_DIR = '/home/laubravo/Documents/cariotipos/MFISH_split_binaries/train'
+ROOT_DIR = '/media/SSD2/cariotipos/MFISH_Dataset/MFISH_split/train'
 IMAGE_DIR = os.path.join(ROOT_DIR, "train2018")
 ANNOTATION_DIR = os.path.join(ROOT_DIR, "annotations")
 
