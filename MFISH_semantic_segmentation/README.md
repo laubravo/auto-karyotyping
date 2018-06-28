@@ -23,3 +23,4 @@ The process followed what was outlined in this [issue](https://github.com/roytse
 2. Add dataset to the ``` lib/datasets/dataset_catalog.py ```  
 3. Modify available options for dataset names in ``` tools/train_net_step.py ``` (dataset was added as MFISH_train). This change can be found in the repo's ```scripts/train_net_step_modifications.py``` script.
 4. Modify the .yaml file if it has a ```NUM_CLASSES``` item. Note: the number of classes must account for the background class so it should be one more than the number defined in 0.
+5. Adjust the net's output layers to fit the new number of classes. A preliminary version of this change can be found in the repo's ```scripts/train_net_step_modifications.py``` script.
