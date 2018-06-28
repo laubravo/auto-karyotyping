@@ -16,3 +16,10 @@ Then check that the dataset information including class names and ids in convert
 For this to work dataset must be in format specified by pycococreator. The script convert_dataset_COCO/separate_annotations_binaries.py helps with the annotation format.  
 
 To check that dataset was correctly converted into COCO format visualize them with convert_dataset_COCO/visualize_coco.ipynb. This Jupyter Notebook uses the [COCO API pycocotools](https://github.com/cocodataset/cocoapi)
+
+## Modifying Detectron for the MFISH dataset
+The process followed what was outlined in this [issue](https://github.com/roytseng-tw/Detectron.pytorch/issues/60).
+0. Convert dataset to COCO format  
+1. Add dataset to the ``` lib/datasets/dataset_catalog.py ```  
+2. Modify available options for dataset names in ``` tools/train_net_step.py ``` (dataset was added as MFISH_train). This change can be found in the repo's ```scripts/train_net_step_modifications.py``` script.
+3. Modify the .yaml file if it has a ```NUM_CLASSES``` item. Note: the number of classes must account for the background class so it should be one more than the number defined in 0.
