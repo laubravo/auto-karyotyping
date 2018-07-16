@@ -1,11 +1,28 @@
+import argparse
 from PIL import Image
 import os as os
 import numpy as np
 
-in_dir = '/media/SSD1/MFISH_Dataset/MFISH_split/train/annotations'
-out_dir = '/media/SSD2/cariotipos/MFISH_Dataset/MFISH_split/train/annotations'
+#in_dir = '/home/laubravo/Documents/cariotipos/MFISH_split_new/test/annotations'
+#out_dir = '/home/laubravo/Documents/cariotipos/MFISH_split/test/annotations'
 
 #filename = os.path.join(in_dir, 'A0101.png')
+
+
+def parse_args():
+    """Parse input arguments"""
+    parser = argparse.ArgumentParser(description='Separate annotations into binaries')
+
+    parser.add_argument(
+        '--data_dir', dest='data_dir', required=True,
+        help='Complete path to chromosome dataset')
+    parser.add_argument(
+        '--save_dir', dest='save_dir', required=True,
+        help='Complete path to save dataset')
+    parser.add_argument(
+        '--set_name', dest='set_name', required=True,
+        help='Set split name of the dataset')
+    return parser.parse_args()
 
 def getBinaryIms(im, out_path, org_name):
     """ im: image with one channel 
@@ -27,6 +44,16 @@ def getBinaryIms(im, out_path, org_name):
 
 
 def main():
+    args = parse_args()
+    print('Called with args:')
+    print(args)
+
+    in_dir = os.path.join(args.data_dir, args.set_name, 'annotations')
+    out_dir = os.path.join(args.save_dir, args.set_name, 'annotations')
+    
+    im_in_dir = os.path.join(args.data_dir, args.set_name, args.set_name + '2018')
+    im_out_dir = os.path.join(args.save_dir, args.set_name, args.set_name + '2018')
+
     files = os.listdir(in_dir)
     files.sort()
     if not os.path.exists(out_dir):
@@ -35,7 +62,8 @@ def main():
     for f in files:
         im = Image.open(os.path.join(in_dir,f))
         getBinaryIms(im, out_dir, f)
-
+        
+    os.system('cp -r ' + im_in_dir + ' ' + im_out_dir)
 
 #    print(np.unique(np.reshape(im,-1)))
 

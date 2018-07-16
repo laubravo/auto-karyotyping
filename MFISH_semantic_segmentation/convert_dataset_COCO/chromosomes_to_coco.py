@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import datetime
 import json
 import os
@@ -10,8 +11,31 @@ import numpy as np
 from pycococreatortools import pycococreatortools
 import pdb
 
-ROOT_DIR = '/media/SSD2/cariotipos/MFISH_Dataset/MFISH_split/train'
-IMAGE_DIR = os.path.join(ROOT_DIR, "train2018")
+#SET_NAME = "val"
+#ROOT_DIR = "/home/laubravo/Documents/cariotipos/MFISH_split/" + SET_NAME
+
+def parse_args():
+    """Parse input arguments"""
+    parser = argparse.ArgumentParser(description='Convert chromosome dataset into COCO format')
+
+    parser.add_argument(
+        '--set_name', dest='set_name', required=True,
+        help='Set split name of the dataset')
+    parser.add_argument(
+        '--data_dir', dest='data_dir', required=True,
+        help='Complete path to chromosome dataset')
+    return parser.parse_args()
+
+
+
+args = parse_args()
+print('Called with args:')
+print(args)
+
+# setup paths to data and annotations
+SET_NAME = args.set_name
+ROOT_DIR = os.path.join(args.data_dir,SET_NAME)
+IMAGE_DIR = os.path.join(ROOT_DIR, SET_NAME +"2018")
 ANNOTATION_DIR = os.path.join(ROOT_DIR, "annotations")
 
 INFO = {
@@ -269,9 +293,10 @@ def main():
 
             image_id = image_id + 1
 
-    with open('{}/MFISH_chromosomes_train2018.json'.format(ANNOTATION_DIR), 'w') as output_json_file:
+    with open('{0}/MFISH_chromosomes_{1}2018.json'.format(ANNOTATION_DIR, SET_NAME), 'w') as output_json_file:
         json.dump(coco_output, output_json_file)
 
 
 if __name__ == "__main__":
     main()
+
