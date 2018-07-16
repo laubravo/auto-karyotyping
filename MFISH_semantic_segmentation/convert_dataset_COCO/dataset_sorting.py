@@ -1,19 +1,33 @@
+<<<<<<< HEAD
 import argparse
+=======
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
 import os
 import numpy as np
 from scipy import ndimage
 import scipy.misc as misc
+<<<<<<< HEAD
 from PIL import Image
 import pdb
+=======
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
 
 # -------------------------------------------------------------------- #
 #                            Parameters                                #
 # -------------------------------------------------------------------- #
 
+<<<<<<< HEAD
+=======
+PATH = os.path.join('/mnt/tmp/home4/gjeanneret/SSD/MFISH_Dataset','MFISH_original')    # path to the original dataset
+NAME_OUT = 'MFISH_split'
+PATH_SORT = '/mnt/tmp/home4/gjeanneret/SSD/MFISH_Dataset'  # folder which will contain the processed dataset
+
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
 train_partition = 50
 test_partition = 25
 val_partition = 25
 
+<<<<<<< HEAD
 rotation = True
 rotation_vect = np.concatenate([np.arange(30,160,30),np.arange(210,340,30)]) #[30,60,90,120,150]  # vector containing the retoation image
 
@@ -37,6 +51,9 @@ def parse_args():
         help='Complete path to save dataset, MUST be different than data_dir')
     return parser.parse_args()
 
+=======
+# This functions is should return an image given a list containing 2 pictures ([picture1, picture2])
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
 
 def best(im_vec):
     if np.std(im_vec[0],keepdims=False)>np.std(im_vec[1],keepdims=False):
@@ -52,6 +69,7 @@ def max_im(im_vec):
 #                                end                                   #
 # -------------------------------------------------------------------- #
 
+<<<<<<< HEAD
 args = parse_args()
 print('Called with args:')
 print(args)
@@ -64,6 +82,11 @@ assert PATH != PATH_SORT , "dataset save dir must be different than data dir"
 
 if not os.path.exists(PATH_SORT):
 	#os.system('rm -r '+PATH_SORT)
+=======
+PATH_SORT = os.path.join(PATH_SORT, NAME_OUT)
+
+if not os.path.exists(os.path.join(PATH_SORT)):
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
     os.mkdir(os.path.join(PATH_SORT))
     os.mkdir(os.path.join(PATH_SORT,'train'))
     os.mkdir(os.path.join(PATH_SORT,'train','annotations'))
@@ -99,7 +122,11 @@ class db():
                 print(path_to_main)
             
             self.main_list.append([len(path_to_main),folder,path_to_main])
+<<<<<<< HEAD
         self.main_list.sort(reverse = True)
+=======
+        self.main_list.sort()
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
         self.PATH_in = PATH_in
         self.PATH_out = PATH_out
         self.train = {'len':0}
@@ -109,6 +136,7 @@ class db():
         self.train_p = train_p
         self.test_p = test_p
         self.val_p = val_p
+<<<<<<< HEAD
     def sort(self,function,rotation,reflection,jitter,rotation_vect, n_jitter,max_g ,min_g ,max_z):
         t = 0
         now = 0
@@ -116,6 +144,10 @@ class db():
             t += n
         for n,folder,main in self.main_list:
             now += n
+=======
+    def sort(self,function):
+        for n,folder,main in self.main_list:
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
             # get the partition per folder
             IDs = []
             tupla = [] # [label(ID+ID_temp+.png),max,ground_truth]
@@ -140,9 +172,14 @@ class db():
                         tupla[idx][1] = function( [tupla[idx][1],im])
             # adds to train, val or test every image
             if self.train['len']/self.train_p <= self.val['len']/self.val_p and self.train['len']/self.train_p < self.test['len']/self.test_p:
+<<<<<<< HEAD
                 #pdb.set_trace()
                 # saves image and anotation
                 self.train['len'] += save_tuple(tupla,'train',self.PATH_out,rotation,reflection,jitter,rotation_vect, n_jitter ,max_g ,min_g ,max_z )
+=======
+                # saves image and anotation
+                self.train['len'] += save_tuple(tupla,'train',self.PATH_out)
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
                 
             elif self.test['len']/self.test_p <= self.train['len']/self.train_p and self.test['len']/self.test_p <= self.val['len']/self.val_p:
                 # saves image and anotation
@@ -151,6 +188,7 @@ class db():
             elif self.val['len']/self.val_p < self.test['len']/self.test_p and self.val['len']/self.val_p < self.train['len']/self.train_p:
                 # saves image and anotation
                 self.val['len'] += save_tuple(tupla,'val',self.PATH_out)
+<<<<<<< HEAD
             print('Images processed:', now, '/', t)
                 
 
@@ -159,12 +197,24 @@ def save_tuple(tupla, folder, PATH_out, rotation=False, reflection=False, jitter
     cont = 0
 
     for ID, image, ground_truth in tupla:
+=======
+                
+
+def save_tuple(tupla,folder,PATH_out):
+    # check if there's no K's
+    cont = 0
+    for ID, image, ground_truth in tupla:
+        #print(type(ID))
+        #print(type(image))
+        #print(type(PATH_out))
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
         if np.sum(ground_truth)!=0:
             name = ID+'.png'
             fullfile_im = os.path.join(PATH_out,folder,folder+'2018',name)
             fullfile_gt = os.path.join(PATH_out,folder,'annotations',name)
             misc.imsave(fullfile_im,image)
             misc.imsave(fullfile_gt,ground_truth)
+<<<<<<< HEAD
             if rotation:
                 for idx, angle in enumerate(rotation_vect):
                     name = 'r'+str(idx)+ID+'.png'
@@ -231,3 +281,13 @@ def jit(im, gt, max_z):
 #pdb.set_trace()
 cariotipo = db(PATH,PATH_SORT,train_partition,val_partition,test_partition)
 cariotipo.sort(best,rotation,reflection,jitter,rotation_vect,n_jitter,max_g ,min_g,max_z)
+=======
+            cont += 1
+    return cont
+
+
+
+
+cariotipo = db(PATH,PATH_SORT,train_partition,val_partition,test_partition)
+cariotipo.sort(best)
+>>>>>>> f54d0504d6dc88d08558490d888d84d589539f61
